@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Etch-A-Sketch</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="container"></div>
+    <button id="resetButton">Reset Grid</button>
+  </body>
+
+  <script>
+    const container = document.getElementById("container");
+    const resetButton = document.getElementById("resetButton");
+    const containerWidth = 960;
+
+    const rows = 4;
+    const cols = 4;
+
+    function addDivs() {
+      for (let j = 0; j < rows * cols; j++) {
+        let newDiv = document.createElement("div");
+        newDiv.classList.add("square");
+
+        newDiv.addEventListener("mouseover", function () {
+          newDiv.classList.add("hovered");
+          newDiv.classList.remove("offhovered");
+        });
+
+        newDiv.addEventListener("mouseleave", function () {
+          newDiv.classList.remove("hovered");
+          newDiv.classList.add("offhovered");
+        });
+        container.appendChild(newDiv);
+      }
+    }
+
+    // Función para crear la cuadrícula
+    function createGrid(squaresPerSide) {
+      // Limpiar la cuadrícula existente
+      container.innerHTML = "";
+
+      // Calcular el tamaño de cada cuadrado
+      const squareSize = containerWidth / squaresPerSide;
+
+      // Crear los divs de las cuadrículas y agregarlos al contenedor
+      for (let i = 0; i < squaresPerSide * squaresPerSide; i++) {
+        const square = document.createElement("div");
+        square.classList.add("square");
+        square.style.width = `${squareSize}px`;
+        square.style.height = `${squareSize}px`;
+
+        // Agregar evento de mouseover
+        square.addEventListener("mouseover", () => {
+          square.classList.add("hovered");
+        });
+
+        container.appendChild(square);
+      }
+    }
+
+    // Manejar el clic del botón
+    resetButton.addEventListener("click", () => {
+      let squaresPerSide = prompt(
+        "Enter the number of squares per side (max 100):"
+      );
+      squaresPerSide = parseInt(squaresPerSide);
+
+      if (isNaN(squaresPerSide) || squaresPerSide < 1 || squaresPerSide > 100) {
+        alert("Please enter a number between 1 and 100.");
+      } else {
+        createGrid(squaresPerSide);
+      }
+    });
+
+    // Crear una cuadrícula inicial
+    createGrid(16);
+  </script>
+</html>
